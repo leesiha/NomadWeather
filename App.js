@@ -4,7 +4,8 @@ import { View, Text, Dimensions, StyleSheet, ScrollView } from "react-native";
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 export default function App() {
-  const [city, setCity] = useState("Loading...");
+  const [region, setRegion] = useState("Loading...");
+  const [districtNstreet, setDNS] = useState("");
   const [location, setLocation] = useState();
   const [ok, setOk] = useState(true);
   const ask = async () => {
@@ -19,13 +20,8 @@ export default function App() {
       { latitude, longitude },
       { useGoogleMaps: false }
     );
-    const output =
-      location[0].region +
-      ", " +
-      location[0].district +
-      ", " +
-      location[0].street;
-    setCity(output);
+    setRegion(location[0].region);
+    setDNS(location[0].district + ", " + location[0].street);
   };
   useEffect(() => {
     ask();
@@ -33,10 +29,8 @@ export default function App() {
   return (
     <View style={styles.container}>
       <View style={styles.city}>
-        <Text style={styles.region}>{city.split(",")[0]}</Text>
-        <Text style={styles.districtNstreet}>
-          {city.split(",")[1] + city.split(",")[2]}
-        </Text>
+        <Text style={styles.region}>{region}</Text>
+        <Text style={styles.districtNstreet}>{districtNstreet}</Text>
       </View>
       <ScrollView
         pagingEnabled
